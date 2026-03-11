@@ -291,7 +291,7 @@ const Index = () => {
               const sidebar = results.relatedArticles.slice(1);
               const timeStr = new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
               return (
-                <div className="news-layout">
+                <div className="news-layout" style={{ gridTemplateColumns: '1fr 1fr' }}>
                   {/* LEFT: Latest Updates */}
                   <div className="news-col-left">
                     <h4 className="news-col-title">Latest Updates</h4>
@@ -313,27 +313,7 @@ const Index = () => {
                     </div>
                   </div>
 
-                  {/* CENTER: Featured Story */}
-                  <div className="news-col-center">
-                    <h4 className="news-col-title">Featured Story</h4>
-                    <a href={featured.url} target="_blank" rel="noopener noreferrer" className="featured-card">
-                      <div className="featured-badge-row">
-                        <span className="featured-verified-badge">✅ Verified News</span>
-                        <span className="featured-credibility">◐ Credibility: 100%</span>
-                      </div>
-                      <div className="featured-body">
-                        <span className="ra-category">general</span>
-                        <h3 className="featured-title">{featured.title}</h3>
-                        <p className="featured-desc">{featured.description}</p>
-                        <div className="featured-meta">
-                          <span>🕐 {new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</span>
-                          <span>• {featured.source}</span>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-
-                  {/* RIGHT: More Verified */}
+                  {/* RIGHT: Misinformation Alerts */}
                   <div className="news-col-right">
                     <h4 className="news-col-title">⚠️ <span style={{ color: "hsl(var(--cp-accent))" }}>Misinformation Alerts</span></h4>
                     {sidebar.length > 0 && (
