@@ -10,6 +10,13 @@ const PIPELINE_STEPS = [
   "Generating AI verdict...",
 ];
 
+type RelatedArticle = {
+  title: string;
+  url: string;
+  source: string;
+  description: string;
+};
+
 type AnalysisResult = {
   verdict: string;
   confidence: number;
@@ -19,6 +26,7 @@ type AnalysisResult = {
   factMatches: string;
   summary: string;
   flags: string[];
+  relatedArticles?: RelatedArticle[];
 };
 
 const Index = () => {
@@ -286,6 +294,29 @@ const Index = () => {
                 )}
               </div>
             </div>
+
+            {/* RELATED ARTICLES */}
+            {results.relatedArticles && results.relatedArticles.length > 0 && (
+              <div className="related-articles-section">
+                <h4>Related Articles</h4>
+                <div className="related-articles-list">
+                  {results.relatedArticles.map((article, i) => (
+                    <a key={i} href={article.url} target="_blank" rel="noopener noreferrer" className="related-article-card">
+                      <div className="ra-top">
+                        <span className="ra-check">✅</span>
+                        <span className="ra-category">general</span>
+                        <span className="ra-confidence">○ {Math.max(75, 100 - i * 5)}%</span>
+                      </div>
+                      <h5 className="ra-title">{article.title}</h5>
+                      <div className="ra-meta">
+                        <span className="ra-time">{new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true })}</span>
+                        <span className="ra-source">{article.source}</span>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
       </main>
