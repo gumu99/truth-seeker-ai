@@ -466,46 +466,185 @@
   .explanation-box { padding: 1rem; font-size: 1rem; }
 }
 
-/* RELATED ARTICLES */
-.related-articles-section {
-  margin-top: 2rem;
+/* NEWSPAPER LAYOUT */
+.news-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  gap: 0;
+  margin-top: 2.5rem;
+  border-top: 3px double hsl(var(--cp-border));
+  padding-top: 1.5rem;
 }
 
-.related-articles-section h4 {
-  font-family: var(--font-sans);
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-  color: hsl(var(--cp-muted));
-  letter-spacing: 0.05em;
+.news-col-left {
+  padding-right: 1.5rem;
+  border-right: 1px solid hsl(var(--cp-border));
 }
 
-.related-articles-list {
+.news-col-center {
+  padding: 0 1.5rem;
+  border-right: 1px solid hsl(var(--cp-border));
+}
+
+.news-col-right {
+  padding-left: 1.5rem;
+}
+
+.news-col-title {
+  font-family: var(--font-header);
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: hsl(var(--ink));
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid hsl(var(--ink));
+}
+
+.news-updates-list {
   display: flex;
   flex-direction: column;
   gap: 0;
 }
 
-.related-article-card {
+.news-update-card {
   display: block;
-  padding: 1rem 0;
+  padding: 0.85rem 0;
   border-bottom: 1px solid hsl(var(--cp-border));
   text-decoration: none;
   color: inherit;
   transition: background-color 0.2s;
 }
 
-.related-article-card:first-child {
-  border-top: 1px solid hsl(var(--cp-border));
-}
-
-.related-article-card:hover {
+.news-update-card:hover {
   background: hsl(var(--cp-canvas));
   padding-left: 0.5rem;
-  padding-right: 0.5rem;
   margin-left: -0.5rem;
-  margin-right: -0.5rem;
+  border-radius: 4px;
+}
+
+/* Featured Story */
+.featured-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid hsl(var(--cp-border));
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+
+.featured-card:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.featured-badge-row {
+  background: hsl(var(--ink));
+  color: hsl(var(--paper));
+  padding: 0.75rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.featured-verified-badge {
+  background: hsl(var(--cp-green));
+  color: white;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+}
+
+.featured-credibility {
+  color: hsl(var(--paper));
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+}
+
+.featured-body {
+  padding: 1.25rem;
+}
+
+.featured-title {
+  font-family: var(--font-header);
+  font-size: 1.35rem;
+  font-weight: 900;
+  line-height: 1.25;
+  margin: 0.75rem 0;
+  color: hsl(var(--ink));
+}
+
+.featured-desc {
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  color: hsl(var(--cp-muted));
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.featured-meta {
+  display: flex;
+  gap: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  color: hsl(var(--cp-muted));
+}
+
+/* Misinformation Alerts */
+.misinfo-card {
+  border: 1px solid hsl(var(--cp-accent) / 0.3);
   border-radius: 6px;
+  padding: 1rem;
+  background: hsl(var(--cp-accent-soft));
+}
+
+.misinfo-badge-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.misinfo-badge {
+  background: hsl(var(--cp-accent));
+  color: white;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.misinfo-title {
+  font-family: var(--font-header);
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
+  color: hsl(var(--cp-accent));
+}
+
+.misinfo-desc {
+  font-family: var(--font-serif);
+  font-size: 0.8rem;
+  color: hsl(var(--cp-muted));
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .news-layout {
+    grid-template-columns: 1fr;
+  }
+  .news-col-left, .news-col-center, .news-col-right {
+    padding: 0;
+    border-right: none;
+    border-bottom: 1px solid hsl(var(--cp-border));
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
 }
 
 .ra-top {
