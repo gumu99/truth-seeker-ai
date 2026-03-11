@@ -295,28 +295,75 @@ const Index = () => {
               </div>
             </div>
 
-            {/* RELATED ARTICLES */}
-            {results.relatedArticles && results.relatedArticles.length > 0 && (
-              <div className="related-articles-section">
-                <h4>Related Articles</h4>
-                <div className="related-articles-list">
-                  {results.relatedArticles.map((article, i) => (
-                    <a key={i} href={article.url} target="_blank" rel="noopener noreferrer" className="related-article-card">
-                      <div className="ra-top">
-                        <span className="ra-check">✅</span>
-                        <span className="ra-category">general</span>
-                        <span className="ra-confidence">○ {Math.max(75, 100 - i * 5)}%</span>
+            {/* RELATED ARTICLES - Newspaper Layout */}
+            {results.relatedArticles && results.relatedArticles.length > 0 && (() => {
+              const featured = results.relatedArticles[0];
+              const sidebar = results.relatedArticles.slice(1);
+              const timeStr = new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
+              return (
+                <div className="news-layout">
+                  {/* LEFT: Latest Updates */}
+                  <div className="news-col-left">
+                    <h4 className="news-col-title">Latest Updates</h4>
+                    <div className="news-updates-list">
+                      {sidebar.map((article, i) => (
+                        <a key={i} href={article.url} target="_blank" rel="noopener noreferrer" className="news-update-card">
+                          <div className="ra-top">
+                            <span className="ra-check">✅</span>
+                            <span className="ra-category">general</span>
+                            <span className="ra-confidence">○ {Math.max(75, 100 - (i + 1) * 5)}%</span>
+                          </div>
+                          <h5 className="ra-title">{article.title}</h5>
+                          <div className="ra-meta">
+                            <span className="ra-time">{timeStr}</span>
+                            <span className="ra-source">{article.source}</span>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* CENTER: Featured Story */}
+                  <div className="news-col-center">
+                    <h4 className="news-col-title">Featured Story</h4>
+                    <a href={featured.url} target="_blank" rel="noopener noreferrer" className="featured-card">
+                      <div className="featured-badge-row">
+                        <span className="featured-verified-badge">✅ Verified News</span>
+                        <span className="featured-credibility">◐ Credibility: 100%</span>
                       </div>
-                      <h5 className="ra-title">{article.title}</h5>
-                      <div className="ra-meta">
-                        <span className="ra-time">{new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true })}</span>
-                        <span className="ra-source">{article.source}</span>
+                      <div className="featured-body">
+                        <span className="ra-category">general</span>
+                        <h3 className="featured-title">{featured.title}</h3>
+                        <p className="featured-desc">{featured.description}</p>
+                        <div className="featured-meta">
+                          <span>🕐 {new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</span>
+                          <span>• {featured.source}</span>
+                        </div>
                       </div>
                     </a>
-                  ))}
+                  </div>
+
+                  {/* RIGHT: More Verified */}
+                  <div className="news-col-right">
+                    <h4 className="news-col-title">⚠️ <span style={{ color: "hsl(var(--cp-accent))" }}>Misinformation Alerts</span></h4>
+                    {sidebar.length > 0 && (
+                      <div className="misinfo-card">
+                        <div className="misinfo-badge-row">
+                          <span className="misinfo-badge">🔍 Investigating</span>
+                          <span className="ra-confidence">◐ Score: {Math.max(75, 100 - sidebar.length * 5)}%</span>
+                        </div>
+                        <h5 className="misinfo-title">{sidebar[0]?.title}</h5>
+                        <p className="misinfo-desc">{sidebar[0]?.description}</p>
+                        <div className="ra-meta">
+                          <span className="ra-category">general</span>
+                          <span className="ra-time">{new Date().toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" })}</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
+              );
+            })()}
           </div>
         )}
       </main>
