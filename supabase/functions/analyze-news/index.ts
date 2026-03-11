@@ -191,7 +191,32 @@ Provide your verdict.`;
 
     const analysis = JSON.parse(toolCall.function.arguments);
 
-    return new Response(JSON.stringify(analysis), {
+    // Parse search results into structured format for frontend
+    const relatedArticles = [];
+    if (searchResults) {
+      const sourceBlocks = searchResults.split("\n\n");
+      for (const block of sourceBlocks) {
+        const titleMatch = block.match(/\[Source \d+\] (.+)/);
+        const urlMatch = block.match(/URL: (.+)/);
+        const descMatch = block.match(/URL: .+\n(.*)/);
+        if (titleMatch && urlMatch && urlMatch[1] !== "N/A") {
+          const url = urlMatch[1].trim();
+          let sourceName = "Unknown";
+          try {
+            sourceName = new URL(url).hostname.replace("www.", "").split(".")[0];
+            sourceName = sourceName.charAt(0).toUpperCase() + sourceName.slice(1);
+          } catch {}
+          relatedArticles.push({
+            title: titleMatch[1].trim(),
+            url,
+            source: sourceName,
+            description: descMatch?.[1]?.trim() || "",
+          });
+        }
+      }
+    }
+
+    return new Response(JSON.stringify({ ...analysis, relatedArticles }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e) {

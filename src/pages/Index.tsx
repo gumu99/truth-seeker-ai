@@ -10,6 +10,13 @@ const PIPELINE_STEPS = [
   "Generating AI verdict...",
 ];
 
+type RelatedArticle = {
+  title: string;
+  url: string;
+  source: string;
+  description: string;
+};
+
 type AnalysisResult = {
   verdict: string;
   confidence: number;
@@ -19,6 +26,7 @@ type AnalysisResult = {
   factMatches: string;
   summary: string;
   flags: string[];
+  relatedArticles?: RelatedArticle[];
 };
 
 const Index = () => {
