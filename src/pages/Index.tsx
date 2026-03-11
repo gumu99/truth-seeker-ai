@@ -178,16 +178,6 @@ const Index = () => {
         </div>
       </header>
 
-      {/* NAV */}
-      <nav className="feature-nav">
-        <div className="nav-scroll">
-          <button className="nav-pill active"><span className="pulse" />Live Monitor</button>
-          <button className="nav-pill">Bias Maps</button>
-          <button className="nav-pill">Neural Verify</button>
-          <button className="nav-pill">Metadata Extract</button>
-          <button className="nav-pill">Bot Detection</button>
-        </div>
-      </nav>
 
       {/* MAIN CONTENT */}
       <main className="single-col-layout">
