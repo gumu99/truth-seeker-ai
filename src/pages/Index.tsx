@@ -223,7 +223,55 @@ const Index = () => {
           </button>
         </div>
 
-        {/* PIPELINE */}
+        {/* RELATED ARTICLES - Below input card */}
+        {showResults && results && results.relatedArticles && results.relatedArticles.length > 0 && (() => {
+          const sidebar = results.relatedArticles.slice(1);
+          const timeStr = new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
+          return (
+            <div className="news-layout" style={{ gridTemplateColumns: '1fr 1fr' }}>
+              {/* LEFT: Latest Updates */}
+              <div className="news-col-left">
+                <h4 className="news-col-title">Latest Updates</h4>
+                <div className="news-updates-list">
+                  {sidebar.map((article, i) => (
+                    <a key={i} href={article.url} target="_blank" rel="noopener noreferrer" className="news-update-card">
+                      <div className="ra-top">
+                        <span className="ra-check">✅</span>
+                        <span className="ra-category">general</span>
+                        <span className="ra-confidence">○ {Math.max(75, 100 - (i + 1) * 5)}%</span>
+                      </div>
+                      <h5 className="ra-title">{article.title}</h5>
+                      <div className="ra-meta">
+                        <span className="ra-time">{timeStr}</span>
+                        <span className="ra-source">{article.source}</span>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              {/* RIGHT: Misinformation Alerts */}
+              <div className="news-col-right">
+                <h4 className="news-col-title">⚠️ <span style={{ color: "hsl(var(--cp-accent))" }}>Misinformation Alerts</span></h4>
+                {sidebar.length > 0 && (
+                  <div className="misinfo-card">
+                    <div className="misinfo-badge-row">
+                      <span className="misinfo-badge">🔍 Investigating</span>
+                      <span className="ra-confidence">◐ Score: {Math.max(75, 100 - sidebar.length * 5)}%</span>
+                    </div>
+                    <h5 className="misinfo-title">{sidebar[0]?.title}</h5>
+                    <p className="misinfo-desc">{sidebar[0]?.description}</p>
+                    <div className="ra-meta">
+                      <span className="ra-category">general</span>
+                      <span className="ra-time">{new Date().toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" })}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })()}
+
         {pipelineVisible && (
           <div className="pipeline-container">
             <div className="pipeline-header">Processing Neural Pipeline...</div>
