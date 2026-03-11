@@ -183,7 +183,7 @@ const Index = () => {
       <main className="single-col-layout">
         <div className="content-header">
           <span className="kicker">Security Intelligence</span>
-          <h2 className="main-headline">Sift Truth from <span className="accent-text">Fabrication.</span></h2>
+          <h2 className="main-headline">Clarify where news gets <span className="accent-text">verified.</span></h2>
           <p className="deck">Our neural engine analyzes linguistic patterns, source metadata, and historical fact-check databases to provide immediate credibility scoring.</p>
         </div>
 
