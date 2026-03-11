@@ -179,6 +179,57 @@ const Index = () => {
       </header>
 
 
+      {/* RELATED ARTICLES - Always visible at top */}
+      {showResults && results && results.relatedArticles && results.relatedArticles.length > 0 && (() => {
+        const sidebar = results.relatedArticles.slice(1);
+        const timeStr = new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
+        return (
+          <section className="single-col-layout" style={{ paddingTop: '2rem', paddingBottom: 0 }}>
+            <div className="news-layout" style={{ gridTemplateColumns: '1fr 1fr' }}>
+              {/* LEFT: Latest Updates */}
+              <div className="news-col-left">
+                <h4 className="news-col-title">Latest Updates</h4>
+                <div className="news-updates-list">
+                  {sidebar.map((article, i) => (
+                    <a key={i} href={article.url} target="_blank" rel="noopener noreferrer" className="news-update-card">
+                      <div className="ra-top">
+                        <span className="ra-check">✅</span>
+                        <span className="ra-category">general</span>
+                        <span className="ra-confidence">○ {Math.max(75, 100 - (i + 1) * 5)}%</span>
+                      </div>
+                      <h5 className="ra-title">{article.title}</h5>
+                      <div className="ra-meta">
+                        <span className="ra-time">{timeStr}</span>
+                        <span className="ra-source">{article.source}</span>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              {/* RIGHT: Misinformation Alerts */}
+              <div className="news-col-right">
+                <h4 className="news-col-title">⚠️ <span style={{ color: "hsl(var(--cp-accent))" }}>Misinformation Alerts</span></h4>
+                {sidebar.length > 0 && (
+                  <div className="misinfo-card">
+                    <div className="misinfo-badge-row">
+                      <span className="misinfo-badge">🔍 Investigating</span>
+                      <span className="ra-confidence">◐ Score: {Math.max(75, 100 - sidebar.length * 5)}%</span>
+                    </div>
+                    <h5 className="misinfo-title">{sidebar[0]?.title}</h5>
+                    <p className="misinfo-desc">{sidebar[0]?.description}</p>
+                    <div className="ra-meta">
+                      <span className="ra-category">general</span>
+                      <span className="ra-time">{new Date().toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" })}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+        );
+      })()}
+
       {/* MAIN CONTENT */}
       <main className="single-col-layout">
         <div className="content-header">
@@ -195,7 +246,6 @@ const Index = () => {
             <button className={`tab-link ${activeTab === "headline" ? "active" : ""}`} onClick={() => setActiveTab("headline")}>📰 Headline Only</button>
           </div>
 
-          {/* TAB PANES */}
           {activeTab === "text" && (
             <textarea className="cp-textarea" placeholder="Paste the full article text here for deep analysis..." value={textInput} onChange={(e) => setTextInput(e.target.value)} />
           )}
@@ -206,7 +256,6 @@ const Index = () => {
             <input className="simple-input" type="text" placeholder='e.g. "Scientists Discover New Planet..."' value={headlineInput} onChange={(e) => setHeadlineInput(e.target.value)} />
           )}
 
-          {/* OPTIONS */}
           <div className="analysis-options">
             <label className="check-container">
               <input type="checkbox" checked={deepNlp} onChange={(e) => setDeepNlp(e.target.checked)} /> Deep NLP Bias Scan
@@ -284,56 +333,6 @@ const Index = () => {
                 )}
               </div>
             </div>
-
-            {/* RELATED ARTICLES - Newspaper Layout */}
-            {results.relatedArticles && results.relatedArticles.length > 0 && (() => {
-              const featured = results.relatedArticles[0];
-              const sidebar = results.relatedArticles.slice(1);
-              const timeStr = new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
-              return (
-                <div className="news-layout" style={{ gridTemplateColumns: '1fr 1fr' }}>
-                  {/* LEFT: Latest Updates */}
-                  <div className="news-col-left">
-                    <h4 className="news-col-title">Latest Updates</h4>
-                    <div className="news-updates-list">
-                      {sidebar.map((article, i) => (
-                        <a key={i} href={article.url} target="_blank" rel="noopener noreferrer" className="news-update-card">
-                          <div className="ra-top">
-                            <span className="ra-check">✅</span>
-                            <span className="ra-category">general</span>
-                            <span className="ra-confidence">○ {Math.max(75, 100 - (i + 1) * 5)}%</span>
-                          </div>
-                          <h5 className="ra-title">{article.title}</h5>
-                          <div className="ra-meta">
-                            <span className="ra-time">{timeStr}</span>
-                            <span className="ra-source">{article.source}</span>
-                          </div>
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* RIGHT: Misinformation Alerts */}
-                  <div className="news-col-right">
-                    <h4 className="news-col-title">⚠️ <span style={{ color: "hsl(var(--cp-accent))" }}>Misinformation Alerts</span></h4>
-                    {sidebar.length > 0 && (
-                      <div className="misinfo-card">
-                        <div className="misinfo-badge-row">
-                          <span className="misinfo-badge">🔍 Investigating</span>
-                          <span className="ra-confidence">◐ Score: {Math.max(75, 100 - sidebar.length * 5)}%</span>
-                        </div>
-                        <h5 className="misinfo-title">{sidebar[0]?.title}</h5>
-                        <p className="misinfo-desc">{sidebar[0]?.description}</p>
-                        <div className="ra-meta">
-                          <span className="ra-category">general</span>
-                          <span className="ra-time">{new Date().toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" })}</span>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              );
-            })()}
           </div>
         )}
       </main>
